@@ -91,6 +91,8 @@ async function ensureTasksTable() {
 
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
+      task_key TEXT,
+
       CONSTRAINT planner_tasks_status_check
         CHECK (
           status IN (
@@ -111,18 +113,7 @@ async function ensureTasksTable() {
       record_date
     );
   `);
-  await pool.query(`
-  ALTER TABLE planner_tasks
-  ADD COLUMN IF NOT EXISTS task_key TEXT
-`);
-  await pool.query(`
-  CREATE UNIQUE INDEX IF NOT EXISTS
-    planner_tasks_task_key_unique
-  ON planner_tasks(task_key)
-  WHERE task_key IS NOT NULL
-`);
 }
-
 /* =====================================================
    DATABASE CONNECTION
 ===================================================== */
