@@ -1,0 +1,2083 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --background: #f5f6f8;
+    --white: #ffffff;
+    --border: #e6e8ed;
+
+    --text: #202532;
+    --muted: #8a92a1;
+
+    --primary: #6268e8;
+    --primary-light: #eeeeff;
+
+    --green: #24a56a;
+    --green-light: #e8f7ef;
+
+    --red: #e45757;
+    --red-light: #fdecec;
+
+    --orange: #e89a35;
+    --orange-light: #fff4e4;
+
+    --completed: #8d95a3;
+    --completed-light: #eef0f3;
+
+    --hour-height: 72px;
+    --installation-width: 190px;
+    --time-width: 72px;
+}
+
+
+/* =====================================================
+   ОСНОВА
+===================================================== */
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background: var(--background);
+    color: var(--text);
+
+    overflow: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   APP
+===================================================== */
+
+.app {
+    display: flex;
+
+    width: 100%;
+    height: 100vh;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar {
+    width: 330px;
+    min-width: 330px;
+
+    background: var(--white);
+
+    border-right: 1px solid var(--border);
+
+    padding: 22px 18px;
+
+    overflow-y: auto;
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.logo {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 4px 8px 24px;
+}
+
+.logo-icon {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: var(--primary-light);
+
+    color: var(--primary);
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+.logo-title {
+    font-size: 14px;
+
+    font-weight: 750;
+}
+
+.logo-subtitle {
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
+.calendar-section,
+.installations-section,
+.tasks-section {
+    padding: 18px 8px;
+
+    border-top: 1px solid var(--border);
+}
+
+.section-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 15px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.section-header button {
+    border: 0;
+
+    background: var(--primary-light);
+
+    color: var(--primary);
+
+    border-radius: 7px;
+
+    padding: 5px 9px;
+
+    font-size: 10px;
+
+    transition: .15s;
+}
+
+.section-header button:hover {
+    background: #e3e5ff;
+}
+
+
+/* =====================================================
+   КАЛЕНДАР
+===================================================== */
+
+.calendar-navigation {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 12px;
+}
+
+.calendar-navigation strong {
+    font-size: 13px;
+}
+
+.calendar-navigation button {
+    width: 28px;
+    height: 28px;
+
+    border: 0;
+
+    background: transparent;
+
+    border-radius: 7px;
+
+    color: var(--muted);
+
+    font-size: 21px;
+}
+
+.calendar-navigation button:hover {
+    background: #f1f2f5;
+}
+
+.weekdays,
+.calendar-days {
+    display: grid;
+
+    grid-template-columns: repeat(7, 1fr);
+
+    gap: 3px;
+
+    text-align: center;
+}
+
+.weekdays {
+    margin-bottom: 5px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+.calendar-day {
+    height: 31px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+.calendar-day:hover {
+    background: #f1f2f5;
+}
+
+.calendar-day.muted {
+    color: #c6cad2;
+}
+
+.calendar-day.today {
+    color: var(--primary);
+
+    font-weight: 800;
+}
+
+.calendar-day.selected {
+    background: var(--primary);
+
+    color: white;
+
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   УСТАНОВКИ
+===================================================== */
+
+.installation-summary {
+    display: flex;
+
+    gap: 6px;
+
+    margin-bottom: 11px;
+
+    flex-wrap: wrap;
+}
+
+.installation-summary span {
+    padding: 4px 7px;
+
+    border-radius: 6px;
+
+    background: #f4f5f7;
+
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+.installation-summary strong {
+    color: var(--text);
+
+    margin-left: 2px;
+}
+
+.installations-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    max-height: 235px;
+
+    overflow-y: auto;
+
+    padding-right: 2px;
+}
+
+.installation-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    min-height: 38px;
+
+    padding: 5px 6px 5px 8px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: white;
+
+    transition:
+        border-color .15s,
+        background .15s;
+}
+
+.installation-item:hover {
+    border-color: #cdd1fa;
+
+    background: #fafaff;
+}
+
+.installation-status {
+    width: 7px;
+    height: 7px;
+
+    min-width: 7px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+}
+
+.installation-status.inactive {
+    background: #b8bdc7;
+}
+
+.installation-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.installation-name {
+    font-size: 11px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.installation-type {
+    display: inline-block;
+
+    margin-top: 2px;
+
+    padding: 2px 5px;
+
+    border-radius: 4px;
+
+    background: var(--primary-light);
+
+    color: var(--primary);
+
+    font-size: 8px;
+
+    font-weight: 800;
+}
+
+.installation-type.uze {
+    background: var(--orange-light);
+
+    color: var(--orange);
+}
+
+.installation-actions {
+    display: flex;
+
+    gap: 2px;
+}
+
+.installation-action {
+    width: 26px;
+    height: 26px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+
+    border-radius: 6px;
+
+    background: transparent;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    transition: .15s;
+}
+
+.installation-action:hover {
+    background: #f0f1f5;
+
+    color: var(--text);
+}
+
+.installation-action.delete:hover {
+    background: var(--red-light);
+
+    color: var(--red);
+}
+
+.add-installation-button {
+    background: var(--primary) !important;
+
+    color: white !important;
+
+    padding: 6px 9px !important;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 3px 8px rgba(98, 104, 232, .16);
+}
+
+
+/* =====================================================
+   ЗАДАЧІ
+===================================================== */
+
+.tasks-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.task-card {
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    padding: 10px;
+
+    background: white;
+
+    cursor: pointer;
+
+    transition:
+        border-color .15s,
+        transform .15s;
+}
+
+.task-card:hover {
+    border-color: #c9cdfc;
+
+    transform: translateY(-1px);
+}
+
+.task-name {
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.task-installation {
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+.task-time {
+    margin-top: 7px;
+
+    font-size: 10px;
+
+    font-weight: 650;
+}
+
+.progress {
+    height: 4px;
+
+    margin-top: 7px;
+
+    background: #edf0f3;
+
+    border-radius: 5px;
+
+    overflow: hidden;
+}
+
+.progress span {
+    display: block;
+
+    height: 100%;
+
+    background: var(--green);
+}
+
+.empty {
+    color: var(--muted);
+
+    font-size: 11px;
+
+    padding: 4px 0;
+}
+
+.section-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+}
+
+.status-dot.green {
+    background: var(--green);
+}
+
+.status-dot.red {
+    background: var(--red);
+}
+
+.task-count {
+    min-width: 22px;
+
+    padding: 3px 6px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    font-size: 10px;
+}
+
+.green-count {
+    background: var(--green-light);
+
+    color: var(--green);
+}
+
+.red-count {
+    background: var(--red-light);
+
+    color: var(--red);
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main {
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background: white;
+}
+
+
+/* =====================================================
+   TOPBAR
+===================================================== */
+
+.topbar {
+    height: 92px;
+
+    min-height: 92px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 20px 28px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.small-title {
+    color: var(--muted);
+
+    font-size: 9px;
+
+    letter-spacing: .12em;
+
+    font-weight: 800;
+}
+
+.page-title h1 {
+    margin: 4px 0 0;
+
+    font-size: 22px;
+
+    font-weight: 750;
+}
+
+.top-controls {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+}
+
+.arrow-button,
+.today-button {
+    height: 36px;
+
+    border: 0;
+
+    background: #f3f4f7;
+
+    color: #606979;
+
+    border-radius: 8px;
+}
+
+.arrow-button {
+    width: 34px;
+
+    font-size: 20px;
+}
+
+.today-button {
+    padding: 0 12px;
+
+    font-size: 11px;
+
+    font-weight: 650;
+}
+
+.new-task-button {
+    height: 38px;
+
+    padding: 0 16px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 5px 14px rgba(98, 104, 232, .2);
+}
+
+
+/* =====================================================
+   TIMELINE
+===================================================== */
+
+.timeline-container {
+    flex: 1;
+
+    min-height: 0;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.timeline-header {
+    height: 58px;
+
+    min-height: 58px;
+
+    display: flex;
+
+    background: white;
+
+    border-bottom: 1px solid var(--border);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 20;
+}
+
+.time-header {
+    width: var(--time-width);
+
+    min-width: var(--time-width);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    border-right: 1px solid var(--border);
+
+    position: sticky;
+
+    left: 0;
+
+    z-index: 30;
+
+    background: white;
+}
+
+.installation-headers {
+    display: flex;
+}
+
+.installation-header {
+    width: var(--installation-width);
+
+    min-width: var(--installation-width);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 0 8px;
+
+    border-right: 1px solid var(--border);
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.timeline-scroll {
+    flex: 1;
+
+    overflow: auto;
+
+    position: relative;
+}
+
+.timeline {
+    position: relative;
+
+    width: max-content;
+
+    min-width: 100%;
+
+    height: calc(24 * var(--hour-height));
+
+    display: flex;
+}
+
+.time-column {
+    width: var(--time-width);
+
+    min-width: var(--time-width);
+
+    height: 100%;
+
+    background: white;
+
+    border-right: 1px solid var(--border);
+
+    position: sticky;
+
+    left: 0;
+
+    z-index: 12;
+}
+
+.time-mark {
+    position: absolute;
+
+    left: 0;
+
+    width: 100%;
+
+    transform: translateY(-6px);
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+.installation-grid {
+    display: flex;
+
+    height: 100%;
+}
+
+.installation-column {
+    width: var(--installation-width);
+
+    min-width: var(--installation-width);
+
+    height: 100%;
+
+    position: relative;
+
+    border-right: 1px solid var(--border);
+
+    background-image:
+        repeating-linear-gradient(to bottom,
+            transparent 0,
+            transparent calc(var(--hour-height) - 1px),
+            #e8ebef calc(var(--hour-height) - 1px),
+            #e8ebef var(--hour-height));
+}
+
+.installation-column::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background-image:
+        repeating-linear-gradient(to bottom,
+            transparent 0,
+            transparent calc(var(--hour-height) / 2 - 1px),
+            #f2f3f5 calc(var(--hour-height) / 2 - 1px),
+            #f2f3f5 calc(var(--hour-height) / 2));
+}
+
+
+/* =====================================================
+   TASK BLOCK
+===================================================== */
+
+.task-block {
+    position: absolute;
+
+    left: 7px;
+    right: 7px;
+
+    z-index: 5;
+
+    border-radius: 9px;
+
+    padding: 8px 9px;
+
+    overflow: hidden;
+
+    cursor: pointer;
+
+    border-left: 3px solid var(--primary);
+
+    background: var(--primary-light);
+
+    color: #3d4381;
+
+    transition:
+        height .18s ease,
+        box-shadow .18s ease,
+        z-index 0s;
+
+    box-sizing: border-box;
+}
+
+/* Розгортаємо задачу при наведенні */
+.task-block:hover {
+    height: auto !important;
+
+    min-height: 34px;
+
+    z-index: 100;
+
+    overflow: visible;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, .18);
+}
+
+.task-block:hover {
+    height: auto !important;
+
+    min-height: 34px;
+
+    z-index: 100;
+
+    overflow: visible !important;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, .18);
+}
+
+.task-block:hover strong,
+.task-block:hover span {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    display: block;
+}
+
+.task-block.active {
+    background: var(--green-light);
+
+    border-left-color: var(--green);
+
+    color: #176d49;
+}
+
+.task-block.overdue {
+    background: var(--red-light);
+
+    border-left-color: var(--red);
+
+    color: #8c3030;
+}
+
+.task-block.completed {
+    background: var(--completed-light);
+
+    border-left-color: var(--completed);
+
+    color: #68707d;
+
+    opacity: .78;
+}
+
+.task-block.completed strong::before {
+    content: "✓ ";
+
+    font-weight: 800;
+}
+
+.task-block strong {
+    display: block;
+
+    font-size: 10px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.task-block span {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 9px;
+
+    opacity: .75;
+}
+
+
+/* =====================================================
+   КНОПКА ВИКОНАНО
+===================================================== */
+
+.complete-button {
+    margin-top: 8px;
+
+    width: 100%;
+
+    height: 28px;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background: var(--green);
+
+    color: white;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.complete-button:hover {
+    filter: brightness(.94);
+}
+
+.complete-button.overdue-button {
+    background: var(--red);
+}
+
+
+/* =====================================================
+   ПОТОЧНИЙ ЧАС
+===================================================== */
+
+.current-time-line {
+    position: absolute;
+
+    left: var(--time-width);
+
+    right: 0;
+
+    height: 2px;
+
+    background: var(--red);
+
+    z-index: 10;
+
+    pointer-events: none;
+}
+
+.current-time-line span {
+    position: absolute;
+
+    left: -5px;
+
+    top: -8px;
+
+    padding: 2px 5px;
+
+    border-radius: 4px;
+
+    background: var(--red);
+
+    color: white;
+
+    font-size: 8px;
+
+    font-weight: 800;
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 100;
+
+    background: rgba(25, 30, 40, .28);
+
+    backdrop-filter: blur(2px);
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-window {
+    position: relative;
+
+    width: 620px;
+
+    max-width: calc(100vw - 30px);
+
+    max-height: calc(100vh - 30px);
+
+    overflow-y: auto;
+
+    background: white;
+
+    border-radius: 16px;
+
+    padding: 24px;
+
+    box-shadow:
+        0 20px 60px rgba(20, 30, 50, .2);
+}
+
+.modal-window h2 {
+    margin: 0 0 18px;
+
+    font-size: 20px;
+}
+
+.close-modal {
+    position: absolute;
+
+    right: 14px;
+
+    top: 10px;
+
+    background: transparent;
+
+    border: 0;
+
+    color: var(--muted);
+
+    font-size: 25px;
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group label {
+    display: block;
+
+    color: #626b7a;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    margin-top: 6px;
+
+    padding: 9px 10px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background: white;
+
+    color: var(--text);
+
+    font-size: 12px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #aeb3ff;
+
+    box-shadow:
+        0 0 0 2px rgba(98, 104, 232, .08);
+}
+
+.form-group textarea {
+    resize: vertical;
+
+    min-height: 75px;
+}
+
+.form-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+}
+
+
+/* =====================================================
+   ВКЛАДКИ УСТАНОВКИ
+===================================================== */
+
+.installation-tabs {
+    display: flex;
+
+    gap: 4px;
+
+    overflow-x: auto;
+
+    margin-bottom: 20px;
+
+    padding-bottom: 1px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.installation-tab {
+    position: relative;
+
+    flex-shrink: 0;
+
+    padding: 9px 12px;
+
+    border: 0;
+
+    border-radius: 8px 8px 0 0;
+
+    background: transparent;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    transition: .15s;
+}
+
+.installation-tab:hover {
+    color: var(--text);
+
+    background: #f5f6f8;
+}
+
+.installation-tab.active {
+    color: var(--primary);
+
+    background: var(--primary-light);
+}
+
+.installation-tab.active::after {
+    content: "";
+
+    position: absolute;
+
+    left: 10px;
+    right: 10px;
+
+    bottom: -1px;
+
+    height: 2px;
+
+    background: var(--primary);
+
+    border-radius: 2px;
+}
+
+
+/* =====================================================
+   ВМІСТ ВКЛАДОК
+===================================================== */
+
+.installation-tab-content {
+    display: none;
+
+    min-height: 300px;
+}
+
+.installation-tab-content.active {
+    display: block;
+}
+
+.type-settings.hidden,
+.installation-tab-content.hidden {
+    display: none;
+}
+
+
+/* =====================================================
+   ЗАГОЛОВКИ НАЛАШТУВАНЬ
+===================================================== */
+
+.settings-title {
+    margin-bottom: 14px;
+
+    color: var(--text);
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+.schedule-preview-title {
+    margin-top: 20px;
+
+    padding-top: 16px;
+
+    border-top: 1px solid var(--border);
+}
+
+.schedule-help {
+    margin-bottom: 14px;
+
+    padding: 9px 11px;
+
+    border-radius: 8px;
+
+    background: #f7f8fa;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   CHECKBOX
+===================================================== */
+
+.installation-active-group {
+    margin-top: 15px;
+
+    padding-top: 14px;
+
+    border-top: 1px solid var(--border);
+}
+
+.checkbox-label,
+.setting-checkbox {
+    display: flex !important;
+
+    align-items: center;
+
+    gap: 8px;
+
+    cursor: pointer;
+
+    color: var(--text) !important;
+
+    font-size: 11px !important;
+
+    font-weight: 600 !important;
+}
+
+.checkbox-label input,
+.setting-checkbox input {
+    width: 15px !important;
+
+    height: 15px;
+
+    margin: 0 !important;
+
+    accent-color: var(--primary);
+}
+
+.setting-checkbox {
+    min-height: 36px;
+
+    padding: 7px 9px;
+
+    border: 1px solid transparent;
+
+    border-radius: 8px;
+
+    transition: .15s;
+}
+
+.setting-checkbox:hover {
+    background: #f7f8fa;
+
+    border-color: var(--border);
+}
+
+
+/* =====================================================
+   ПОГОДИННИЙ ГРАФІК
+===================================================== */
+
+.hourly-schedule {
+    width: 100%;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    background: white;
+}
+
+.schedule-row {
+    display: grid;
+
+    grid-template-columns: 75px 1fr 75px;
+
+    align-items: center;
+
+    min-height: 39px;
+
+    border-bottom: 1px solid var(--border);
+
+    font-size: 10px;
+}
+
+.schedule-row:last-child {
+    border-bottom: 0;
+}
+
+.schedule-row.header {
+    min-height: 34px;
+
+    background: #f7f8fa;
+
+    color: var(--muted);
+
+    font-weight: 800;
+}
+
+.schedule-hour {
+    padding-left: 10px;
+
+    font-weight: 700;
+}
+
+.schedule-value {
+    padding: 4px 7px;
+}
+
+.schedule-value input {
+    width: 100%;
+
+    height: 28px;
+
+    margin: 0;
+
+    padding: 5px 7px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 6px;
+
+    outline: none;
+
+    font-size: 10px;
+}
+
+.schedule-value input:focus {
+    border-color: #aeb3ff;
+}
+
+.schedule-arvch {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+}
+
+.schedule-arvch input {
+    width: 15px;
+
+    height: 15px;
+
+    margin: 0;
+
+    accent-color: var(--primary);
+}
+
+
+/* =====================================================
+   АРВЧ PREVIEW
+===================================================== */
+
+.arvch-preview {
+    margin-top: 15px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.arvch-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    min-height: 35px;
+
+    padding: 0 10px;
+
+    border-bottom: 1px solid var(--border);
+
+    font-size: 10px;
+}
+
+.arvch-row:last-child {
+    border-bottom: 0;
+}
+
+.arvch-row.active {
+    background: var(--primary-light);
+
+    color: var(--primary);
+
+    font-weight: 700;
+}
+
+.arvch-status {
+    font-size: 9px;
+
+    color: var(--muted);
+}
+
+
+/* =====================================================
+   ГАЗ
+===================================================== */
+
+.kgu-only-content {
+    display: none;
+}
+
+.kgu-only-content.active {
+    display: block;
+}
+
+
+/* =====================================================
+   КНОПКИ MODAL
+===================================================== */
+
+.modal-buttons {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    margin-top: 20px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid var(--border);
+}
+
+.cancel-button,
+.save-button {
+    height: 38px;
+
+    padding: 0 15px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.cancel-button {
+    background: #eef0f4;
+
+    color: #596274;
+}
+
+.cancel-button:hover {
+    background: #e5e7eb;
+}
+
+.save-button {
+    background: var(--primary);
+
+    color: white;
+}
+
+.save-button:hover {
+    background: #555bdc;
+}
+
+
+/* =====================================================
+   SCROLLBAR
+===================================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f5f6f8;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d4d8df;
+
+    border-radius: 10px;
+}
+
+
+/* =====================================================
+   АДАПТИВНІСТЬ
+===================================================== */
+
+@media (max-width: 1000px) {
+
+    .sidebar {
+        width: 290px;
+
+        min-width: 290px;
+    }
+
+    .topbar {
+        padding: 16px;
+    }
+
+}
+
+@media (max-width: 800px) {
+
+    .sidebar {
+        width: 260px;
+
+        min-width: 260px;
+    }
+
+    .today-button {
+        display: none;
+    }
+
+    .modal-window {
+        width: calc(100vw - 20px);
+
+        max-height: calc(100vh - 20px);
+
+        padding: 18px;
+    }
+
+    .installation-tabs {
+        overflow-x: auto;
+    }
+
+}
+
+
+
+/* ======================================================
+   LOAD / UNLOAD POWER MODAL
+====================================================== */
+
+#powerChangeModal .modal-content {
+    width: 520px;
+    max-width: calc(100vw - 40px);
+}
+
+
+/* Заголовок */
+
+#powerChangeModal .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#powerChangeModalTitle {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+/* Кнопка закриття */
+
+#powerChangeModal .modal-close {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 8px;
+
+    background: transparent;
+
+    font-size: 26px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease;
+}
+
+#powerChangeModal .modal-close:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+#powerChangeModal .modal-close:active {
+    transform: scale(0.94);
+}
+
+
+/* ======================================================
+   INSTALLATION LIST
+====================================================== */
+
+#powerChangeModal .installation-checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    margin-top: 10px;
+}
+
+
+/* Окремий рядок установки */
+
+#powerChangeModal .power-change-installation {
+
+    display: grid;
+
+    grid-template-columns:
+        24px minmax(0, 1fr) auto;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-height: 48px;
+
+    padding: 0 14px;
+
+    border: 1px solid #e2e5e9;
+    border-radius: 10px;
+
+    background: #fff;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+#powerChangeModal .power-change-installation:hover {
+
+    border-color: #b8bec6;
+
+    background: #fafbfc;
+}
+
+
+/* Вибрана установка */
+
+#powerChangeModal .power-change-installation:has(input:checked) {
+
+    border-color: #4f7cff;
+
+    background: #f3f6ff;
+
+    box-shadow:
+        0 0 0 1px rgba(79, 124, 255, 0.08);
+}
+
+
+/* Checkbox */
+
+#powerChangeModal .power-change-installation input[type="checkbox"] {
+
+    width: 18px;
+    height: 18px;
+
+    margin: 0;
+
+    cursor: pointer;
+}
+
+
+/* Назва установки */
+
+#powerChangeModal .power-change-installation span:nth-of-type(1) {
+
+    font-size: 15px;
+    font-weight: 600;
+
+    color: #20242a;
+}
+
+
+/* Значення потужності */
+
+#powerChangeModal .power-change-value {
+
+    padding: 5px 9px;
+
+    border-radius: 7px;
+
+    background: #f0f2f5;
+
+    color: #555c66;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* ======================================================
+   TIME FIELDS
+====================================================== */
+
+#powerChangeModal .form-row {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 14px;
+
+    margin-top: 20px;
+}
+
+
+#powerChangeModal .form-group label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #555c66;
+}
+
+
+#powerChangeModal input[type="time"] {
+
+    width: 100%;
+    box-sizing: border-box;
+
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid #d9dde3;
+    border-radius: 8px;
+
+    background: #fff;
+
+    color: #20242a;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+#powerChangeModal input[type="time"]:focus {
+
+    border-color: #4f7cff;
+
+    box-shadow:
+        0 0 0 3px rgba(79, 124, 255, 0.12);
+}
+
+
+/* ======================================================
+   PREVIEW
+====================================================== */
+
+#powerChangeModal .power-change-preview {
+
+    margin-top: 18px;
+
+    padding: 12px 14px;
+
+    border-radius: 9px;
+
+    background: #f5f6f8;
+
+    border: 1px solid #e4e7eb;
+
+    color: #555c66;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+#powerChangeModal .power-change-preview:empty {
+
+    display: none;
+}
+
+
+#powerChangeModal .power-change-preview strong {
+
+    color: #20242a;
+}
+
+
+/* ======================================================
+   FOOTER
+====================================================== */
+
+#powerChangeModal .modal-footer {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 22px;
+}
+
+
+#powerChangeModal .secondary-button,
+#powerChangeModal .primary-button {
+
+    min-height: 40px;
+
+    padding: 0 16px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.1s ease;
+}
+
+
+#powerChangeModal .secondary-button {
+
+    border: 1px solid #d9dde3;
+
+    background: #fff;
+
+    color: #444b54;
+}
+
+
+#powerChangeModal .secondary-button:hover {
+
+    background: #f5f6f8;
+}
+
+
+#powerChangeModal .primary-button {
+
+    border: 1px solid #4f7cff;
+
+    background: #4f7cff;
+
+    color: #fff;
+}
+
+
+#powerChangeModal .primary-button:hover {
+
+    background: #416ce0;
+}
+
+
+#powerChangeModal .primary-button:active,
+#powerChangeModal .secondary-button:active {
+
+    transform: scale(0.97);
+}
+
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
+@media (max-width: 600px) {
+
+    #powerChangeModal .modal-content {
+        width: calc(100vw - 24px);
+        max-width: none;
+    }
+
+    #powerChangeModal .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    #powerChangeModal .power-change-installation {
+
+        grid-template-columns:
+            24px minmax(0, 1fr);
+
+        padding: 10px 12px;
+    }
+
+    #powerChangeModal .power-change-value {
+
+        grid-column: 2;
+
+        width: fit-content;
+    }
+
+}

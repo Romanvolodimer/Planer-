@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Планувальник</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+
+<body>
+
+
+    <div class="app">
+
+
+        <!-- =====================================================
+         ЛІВА ПАНЕЛЬ
+    ====================================================== -->
+
+        <aside class="sidebar">
+
+
+            <!-- ЛОГО -->
+
+            <div class="logo">
+
+                <div class="logo-icon">
+                    P
+                </div>
+
+                <div>
+
+                    <div class="logo-title">
+                        Планувальник
+                    </div>
+
+                    <div class="logo-subtitle">
+                        Моніторинг установок
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+             КАЛЕНДАР
+        ================================================== -->
+
+            <section class="calendar-section">
+
+
+                <div class="section-header">
+
+                    <span>
+                        Календар
+                    </span>
+
+
+                    <button id="todayButton">
+                        Сьогодні
+                    </button>
+
+                </div>
+
+
+                <div class="calendar-navigation">
+
+                    <button id="prevMonth">
+                        ‹
+                    </button>
+
+
+                    <strong id="calendarMonth">
+                    </strong>
+
+
+                    <button id="nextMonth">
+                        ›
+                    </button>
+
+                </div>
+
+
+                <div class="weekdays">
+
+                    <span>Пн</span>
+                    <span>Вт</span>
+                    <span>Ср</span>
+                    <span>Чт</span>
+                    <span>Пт</span>
+                    <span>Сб</span>
+                    <span>Нд</span>
+
+                </div>
+
+
+                <div class="calendar-days" id="calendarDays">
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+             АКТИВНІ ЗАДАЧІ
+        ================================================== -->
+
+            <section class="tasks-section">
+
+
+                <div class="section-header">
+
+                    <span class="section-title">
+
+                        <span class="status-dot green">
+                        </span>
+
+                        Активні зараз
+
+                    </span>
+
+
+                    <span class="task-count green-count" id="activeCount">
+
+                        0
+
+                    </span>
+
+                </div>
+
+
+                <div id="activeTasks" class="tasks-list">
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+             ПРОТЕРМІНОВАНІ
+        ================================================== -->
+
+            <section class="tasks-section overdue-section">
+
+
+                <div class="section-header">
+
+                    <span class="section-title">
+
+                        <span class="status-dot red">
+                        </span>
+
+                        Протерміновані
+
+                    </span>
+
+
+                    <span class="task-count red-count" id="overdueCount">
+
+                        0
+
+                    </span>
+
+                </div>
+
+
+                <div id="overdueTasks" class="tasks-list">
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+             УСТАНОВКИ
+        ================================================== -->
+
+            <section class="installations-section">
+
+
+                <div class="section-header">
+
+                    <span class="section-title">
+                        Установки
+                    </span>
+
+
+                    <button class="add-installation-button" id="addInstallation">
+
+                        + Додати
+
+                    </button>
+
+                </div>
+
+
+
+                <div class="installation-summary">
+
+                    <span>
+                        Всього:
+                        <strong id="installationTotal">
+                            0
+                        </strong>
+                    </span>
+
+
+                    <span>
+                        КГУ:
+                        <strong id="kguTotal">
+                            0
+                        </strong>
+                    </span>
+
+
+                    <span>
+                        УЗЕ:
+                        <strong id="uzeTotal">
+                            0
+                        </strong>
+                    </span>
+
+                </div>
+
+
+
+                <div class="installations-list" id="installationsList">
+
+                </div>
+
+
+            </section>
+
+
+
+
+
+
+        </aside>
+
+
+
+        <!-- =====================================================
+         ОСНОВНА ЧАСТИНА
+    ====================================================== -->
+
+        <main class="main">
+
+
+            <!-- TOPBAR -->
+
+            <header class="topbar">
+
+
+                <div class="page-title">
+
+                    <div class="small-title">
+                        ПЛАНУВАЛЬНИК
+                    </div>
+
+
+                    <h1 id="currentDateTitle">
+                        Сьогодні
+                    </h1>
+
+                </div>
+
+
+
+                <div class="top-controls">
+
+
+                    <button class="arrow-button" id="prevDay">
+
+                        ‹
+
+                    </button>
+
+
+                    <button class="today-button" id="mainToday">
+
+                        Сьогодні
+
+                    </button>
+
+
+                    <button class="arrow-button" id="nextDay">
+
+                        ›
+
+                    </button>
+
+                    <button id="loadPowerButton" class="secondary-button">
+                        Завантаження
+                    </button>
+
+                    <button id="unloadPowerButton" class="secondary-button">
+                        Розвантаження
+                    </button>
+
+
+                    <!--  -->
+                    <!-- =====================================================
+     LOAD / UNLOAD MODAL
+===================================================== -->
+
+                    <div id="powerChangeModal" class="modal hidden">
+
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+
+                                <h2 id="powerChangeModalTitle">
+                                    Завантаження
+                                </h2>
+
+                                <button id="closePowerChangeModal" class="modal-close" type="button">
+                                    ×
+                                </button>
+
+                            </div>
+
+
+                            <div class="modal-body">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Установки
+                                    </label>
+
+                                    <div id="powerChangeInstallations" class="installation-checkboxes">
+                                    </div>
+
+                                </div>
+
+
+                                <div class="form-row">
+
+                                    <div class="form-group">
+
+                                        <label for="powerChangeStart">
+                                            З
+                                        </label>
+
+                                        <input id="powerChangeStart" type="time" value="08:00">
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label for="powerChangeEnd">
+                                            По
+                                        </label>
+
+                                        <input id="powerChangeEnd" type="time" value="18:00">
+
+                                    </div>
+
+                                </div>
+
+
+                                <div id="powerChangePreview" class="power-change-preview">
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-footer">
+
+                                <button id="cancelPowerChange" class="secondary-button" type="button">
+                                    Скасувати
+                                </button>
+
+                                <button id="applyPowerChange" class="primary-button" type="button">
+                                    Застосувати
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--  -->
+
+
+                    <button class="new-task-button" id="newTask">
+
+                        + Нова задача
+
+                    </button>
+
+
+                </div>
+
+
+            </header>
+
+
+
+            <!-- =================================================
+             TIMELINE
+        ================================================== -->
+
+            <div class="timeline-container">
+
+
+                <div class="timeline-header">
+
+
+                    <div class="time-header">
+                        Час
+                    </div>
+
+
+                    <div class="installation-headers" id="installationHeaders">
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="timeline-scroll">
+
+
+                    <div class="timeline" id="timeline">
+
+
+                        <div class="time-column" id="timeColumn">
+
+                        </div>
+
+
+                        <div class="installation-grid" id="installationGrid">
+
+                        </div>
+
+
+                        <div class="current-time-line" id="currentTimeLine">
+
+                            <span>
+                                ЗАРАЗ
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+
+    <!-- =========================================================
+     МОДАЛЬНЕ ВІКНО ЗАДАЧІ
+========================================================= -->
+
+    <div class="modal hidden" id="taskModal">
+
+
+        <div class="modal-window">
+
+
+            <button class="close-modal" id="closeModal">
+
+                ×
+
+            </button>
+
+
+            <h2 id="modalTitle">
+                Нова задача
+            </h2>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Установка
+                </label>
+
+
+                <select id="taskInstallation">
+
+                </select>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Назва задачі
+                </label>
+
+
+                <input type="text" id="taskName" placeholder="Наприклад: Технічне обслуговування">
+
+            </div>
+
+
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Початок
+                    </label>
+
+
+                    <input type="time" id="taskStart">
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Кінець
+                    </label>
+
+
+                    <input type="time" id="taskEnd">
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Опис
+                </label>
+
+
+                <textarea id="taskDescription" placeholder="Додаткова інформація">
+            </textarea>
+
+            </div>
+
+
+
+            <div class="modal-buttons">
+
+
+                <button class="cancel-button" id="cancelModal">
+
+                    Скасувати
+
+                </button>
+
+
+                <button class="save-button" id="saveTask">
+
+                    Зберегти
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================================================
+     МОДАЛЬНЕ ВІКНО УСТАНОВКИ
+========================================================= -->
+
+    <div class="modal hidden" id="installationModal">
+
+
+        <div class="modal-window installation-modal">
+
+
+            <button class="close-modal" id="closeInstallationModal">
+
+                ×
+
+            </button>
+
+
+
+            <h2 id="installationModalTitle">
+                Нова установка
+            </h2>
+
+
+
+            <!-- =================================================
+             ВКЛАДКИ
+        ================================================== -->
+
+            <div class="installation-tabs">
+
+
+                <button class="installation-tab active" data-tab="basic">
+
+                    Основні
+
+                </button>
+
+
+                <button class="installation-tab" data-tab="schedule">
+
+                    Графік
+
+                </button>
+
+
+                <button class="installation-tab" data-tab="automation">
+
+                    Автоматизація
+
+                </button>
+
+
+                <button class="installation-tab" data-tab="arvch">
+
+                    АРВЧ
+
+                </button>
+
+
+                <button class="installation-tab kgu-only-tab" data-tab="gas">
+
+                    Газ
+
+                </button>
+
+
+                <button class="installation-tab kgu-only-tab" data-tab="nomination">
+
+                    Номінація
+
+                </button>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+             ВКЛАДКА: ОСНОВНІ
+        ================================================== -->
+
+            <div class="installation-tab-content active" data-tab-content="basic">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Назва установки
+                    </label>
+
+
+                    <input type="text" id="installationName" placeholder="Наприклад: КГУ №01">
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Тип установки
+                    </label>
+
+
+                    <select id="installationType">
+
+
+                        <option value="KGU">
+                            КГУ
+                        </option>
+
+
+                        <option value="UZE">
+                            УЗЕ
+                        </option>
+
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- =================================================
+                 ОСНОВНІ КГУ
+            ================================================== -->
+
+                <div id="kguBasicSettings" class="type-settings">
+
+
+                    <div class="settings-title">
+                        Основні параметри КГУ
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Мінімальна потужність, кВт
+                        </label>
+
+
+                        <input type="number" id="kguMinPower" min="0" placeholder="100">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Номінальна потужність, кВт
+                        </label>
+
+
+                        <input type="number" id="kguPower" min="0" placeholder="500">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Максимальна потужність, кВт
+                        </label>
+
+
+                        <input type="number" id="kguMaxPower" min="0" placeholder="500">
+
+                    </div>
+
+
+                    <div class="form-row">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Час запуску, хв
+                            </label>
+
+
+                            <input type="number" id="kguStartupMinutes" min="0" placeholder="10">
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Час зупинки, хв
+                            </label>
+
+
+                            <input type="number" id="kguShutdownMinutes" min="0" placeholder="5">
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="form-row">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Набір потужності, хв
+                            </label>
+
+
+                            <input type="number" id="kguLoadMinutes" min="0" placeholder="10">
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Зниження потужності, хв
+                            </label>
+
+
+                            <input type="number" id="kguUnloadMinutes" min="0" placeholder="5">
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>
+                            Крок завантаження, кВт
+                        </label>
+
+                        <input type="number" id="kguLoadPower" min="0" step="1" placeholder="500">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Крок розвантаження, кВт
+                        </label>
+
+                        <input type="number" id="kguUnloadPower" min="0" step="1" placeholder="500">
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                 ОСНОВНІ УЗЕ
+            ================================================== -->
+
+                <div id="uzeBasicSettings" class="type-settings hidden">
+
+
+                    <div class="settings-title">
+                        Основні параметри УЗЕ
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Максимальна потужність заряду, кВт
+                        </label>
+
+
+                        <input type="number" id="uzeChargePower" min="0" placeholder="500">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Максимальна потужність розряду, кВт
+                        </label>
+
+
+                        <input type="number" id="uzeDischargePower" min="0" placeholder="500">
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- АКТИВНІСТЬ -->
+
+                <div class="installation-active-group">
+
+
+                    <label class="checkbox-label">
+
+
+                        <input type="checkbox" id="installationActive" checked>
+
+
+                        <span>
+                            Установка активна
+                        </span>
+
+
+                    </label>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+             ВКЛАДКА: ГРАФІК
+        ================================================== -->
+
+            <div class="installation-tab-content" data-tab-content="schedule">
+
+
+                <div class="settings-title">
+                    Джерело графіка
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Джерело погодинного графіка
+                    </label>
+
+
+                    <select id="scheduleSource">
+
+
+                        <option value="database">
+                            База даних моніторингу
+                        </option>
+
+
+                        <option value="manual">
+                            Вручну
+                        </option>
+
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label class="checkbox-label">
+
+
+                        <input type="checkbox" id="scheduleAutomatic" checked>
+
+
+                        <span>
+                            Автоматично формувати задачі
+                        </span>
+
+
+                    </label>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label class="checkbox-label">
+
+
+                        <input type="checkbox" id="scheduleUpdate" checked>
+
+
+                        <span>
+                            Оновлювати задачі при зміні графіка
+                        </span>
+
+
+                    </label>
+
+                </div>
+
+
+
+                <!-- =================================================
+                 ТЕСТОВИЙ ПОГОДИННИЙ ГРАФІК
+            ================================================== -->
+
+                <div class="settings-title schedule-preview-title">
+
+                    Погодинний графік
+
+                </div>
+
+
+                <div class="schedule-help">
+
+                    Значення будуть отримуватися
+                    з бази даних моніторингу.
+                    Позитивне значення для УЗЕ —
+                    розряд, негативне —
+                    заряд.
+
+                </div>
+
+
+                <div class="hourly-schedule" id="hourlySchedule">
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+             ВКЛАДКА: АВТОМАТИЗАЦІЯ
+        ================================================== -->
+
+            <div class="installation-tab-content" data-tab-content="automation">
+
+
+                <div class="settings-title">
+                    Автоматичне створення задач
+                </div>
+
+
+                <!-- КГУ -->
+
+                <div id="kguAutomationSettings" class="type-settings">
+
+
+                    <label class="setting-checkbox">
+
+                        <input type="checkbox" id="autoStart" checked>
+
+                        <span>
+                            Автоматичний запуск
+                        </span>
+
+                    </label>
+
+
+                    <label class="setting-checkbox">
+
+                        <input type="checkbox" id="autoStop" checked>
+
+                        <span>
+                            Автоматична зупинка
+                        </span>
+
+                    </label>
+
+
+                    <label class="setting-checkbox">
+
+                        <input type="checkbox" id="autoLoad" checked>
+
+                        <span>
+                            Автоматичне збільшення потужності
+                        </span>
+
+                    </label>
+
+
+                    <label class="setting-checkbox">
+
+                        <input type="checkbox" id="autoUnload" checked>
+
+                        <span>
+                            Автоматичне зменшення потужності
+                        </span>
+
+                    </label>
+
+
+                    <label class="setting-checkbox">
+
+                        <input type="checkbox" id="autoManual" checked>
+
+                        <span>
+                            Переведення в ручний режим
+                        </span>
+
+                    </label>
+
+
+                </div>
+
+
+
+                <!-- УЗЕ -->
+
+                <div id="uzeAutomationSettings" class="type-settings hidden">
+
+
+                    <label class="setting-checkbox">
+
+                        <input type="checkbox" id="autoCharge" checked>
+
+                        <span>
+                            Автоматичний заряд
+                        </span>
+
+                    </label>
+
+
+                    <label class="setting-checkbox">
+
+                        <input type="checkbox" id="autoDischarge" checked>
+
+                        <span>
+                            Автоматичний розряд
+                        </span>
+
+                    </label>
+
+
+                    <label class="setting-checkbox">
+
+                        <input type="checkbox" id="autoPowerChange" checked>
+
+                        <span>
+                            Автоматично створювати
+                            зміни потужності
+                        </span>
+
+                    </label>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+             ВКЛАДКА: АРВЧ
+        ================================================== -->
+
+            <div class="installation-tab-content" data-tab-content="arvch">
+
+
+                <div class="settings-title">
+                    Автоматичне планування АРВЧ
+                </div>
+
+
+                <div class="schedule-help">
+
+                    Для кожної години графіка можна
+                    окремо вказати, чи повинна установка
+                    працювати в режимі АРВЧ.
+
+                </div>
+
+
+                <label class="setting-checkbox">
+
+                    <input type="checkbox" id="arvchEnabled" checked>
+
+                    <span>
+                        Дозволити планування АРВЧ
+                    </span>
+
+                </label>
+
+
+                <div class="arvch-preview" id="arvchPreview">
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+             ВКЛАДКА: ГАЗ — ТІЛЬКИ КГУ
+        ================================================== -->
+
+            <div class="installation-tab-content kgu-only-content" data-tab-content="gas">
+
+
+                <div class="settings-title">
+                    Газ
+                </div>
+
+
+                <div class="schedule-help">
+
+                    Параметри прогнозування споживання газу
+                    підключимо на наступному етапі.
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Враховувати газове споживання
+                    </label>
+
+
+                    <label class="checkbox-label">
+
+                        <input type="checkbox" id="gasEnabled" checked>
+
+                        <span>
+                            Використовувати газ
+                            у плануванні
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Споживання газу, м³/год
+                    </label>
+
+
+                    <input type="number" id="gasConsumption" min="0" step="0.1" placeholder="125">
+
+                </div>
+
+
+                <div class="schedule-help">
+
+                    Пізніше тут додамо залежність
+                    споживання газу від потужності,
+                    прогноз та формування номінації/
+                    реномінації.
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+             ВКЛАДКА: НОМІНАЦІЯ — ТІЛЬКИ КГУ
+        ================================================== -->
+
+            <div class="installation-tab-content kgu-only-content" data-tab-content="nomination">
+
+
+                <div class="settings-title">
+                    Номінація та реномінація газу
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Час подання номінації
+                    </label>
+
+
+                    <input type="time" id="nominationTime" value="09:00">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Час подання реномінації
+                    </label>
+
+
+                    <input type="time" id="renominationTime" value="13:00">
+
+                </div>
+
+
+                <label class="setting-checkbox">
+
+                    <input type="checkbox" id="nominationAutomatic" checked>
+
+                    <span>
+                        Автоматично формувати номінацію
+                    </span>
+
+                </label>
+
+
+                <label class="setting-checkbox">
+
+                    <input type="checkbox" id="renominationAutomatic" checked>
+
+                    <span>
+                        Автоматично формувати реномінацію
+                    </span>
+
+                </label>
+
+
+                <div class="schedule-help">
+
+                    Прогноз газу та фактичний розрахунок
+                    номінації/реномінації додамо окремо.
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+             КНОПКИ
+        ================================================== -->
+
+            <div class="modal-buttons">
+
+
+                <button class="cancel-button" id="cancelInstallation">
+
+                    Скасувати
+
+                </button>
+
+
+                <button class="save-button" id="saveInstallation">
+
+                    Зберегти
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <script src="/js/app.js"></script>
+
+</body>
+
+</html>
