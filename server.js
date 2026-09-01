@@ -114,6 +114,47 @@ async function ensureTasksTable() {
     );
   `);
 }
+async function ensureTasksTable() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS planner_tasks (
+      id BIGSERIAL PRIMARY KEY,
+
+      installation_id INTEGER
+        REFERENCES installations(id)
+        ON DELETE CASCADE,
+
+      record_date DATE NOT NULL,
+
+      name TEXT NOT NULL,
+
+      start_time TIME NOT NULL,
+
+      end_time TIME NOT NULL,
+
+      description TEXT DEFAULT '',
+
+      status TEXT NOT NULL DEFAULT 'planned',
+
+      task_type TEXT DEFAULT 'manual',
+
+      is_automatic BOOLEAN NOT NULL DEFAULT FALSE,
+
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+      task_key TEXT,
+
+      CONSTRAINT planner_tasks_status_check
+        CHECK (
+          status IN (
+            'planned',
+            'completed'
+          )
+        )
+    );
+  `);
+}
 /* =====================================================
    DATABASE CONNECTION
 ===================================================== */
