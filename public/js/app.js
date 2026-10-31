@@ -1524,6 +1524,40 @@ let audioContext = null;
 const announcedActiveTasks = new Set();
 const announcedOverdueTasks = new Set();
 
+let sirenModeEnabled = localStorage.getItem("sirenMode") === "true";
+let sirenAudio = null;
+
+function startSiren() {
+  if (!sirenModeEnabled || sirenAudio) return;
+
+  sirenAudio = new Audio("/sounds/siren.mp3");
+  sirenAudio.loop = true;
+  sirenAudio.volume = 1;
+
+  sirenAudio.play().catch((error) => {
+    console.warn("Не вдалося запустити сирену:", error);
+    sirenAudio = null;
+  });
+}
+
+function stopSiren() {
+  if (!sirenAudio) return;
+
+  sirenAudio.pause();
+  sirenAudio.currentTime = 0;
+  sirenAudio = null;
+}
+
+function updateSiren() {
+  const overdue = getOverdueTasks();
+
+  if (sirenModeEnabled && overdue.length > 0) {
+    startSiren();
+  } else {
+    stopSiren();
+  }
+}
+
 function getAudioContext() {
   if (!audioContext) {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -1662,6 +1696,7 @@ function checkTaskNotifications() {
       console.log("⚠️ Завдання прострочене:", task.name);
     }
   }
+  updateSiren();
 }
 
 /* ======================================================
@@ -1986,28 +2021,60 @@ function renderTimeline() {
 }
 
 function createInstallationColumn(installation) {
-  const installationTasks = tasks.filter(
-    (task) => task.installationId === installation.id,
-  );
+  const installationTasks = tasks
+    .filter((task) => task.installationId === installation.id)
+    .sort((a, b) => timeToMinutes(a.start) - timeToMinutes(b.start));
+
+  const groups = [];
+
+  for (const task of installationTasks) {
+    const start = timeToMinutes(task.start);
+    const end = timeToMinutes(task.end);
+
+    const lastGroup = groups[groups.length - 1];
+
+    if (
+      lastGroup &&
+      (start < lastGroup.end ||
+        Math.floor(start / 60) === Math.floor(lastGroup.end / 60))
+    ) {
+      lastGroup.tasks.push(task);
+      lastGroup.end = Math.max(lastGroup.end, end);
+    } else {
+      groups.push({
+        start,
+        end,
+        tasks: [task],
+      });
+    }
+  }
 
   return `
+    <div class="installation-column">
+      ${groups
+        .map((group) => {
+          if (group.tasks.length === 1) {
+            return createTaskBlock(group.tasks[0]);
+          }
 
-        <div class="installation-column">
+          const top = (group.start / 60) * 72;
 
-            ${installationTasks.map(createTaskBlock).join("")}
-
-        </div>
-
-    `;
+          return `
+          <div class="task-group" style="top:${top}px">
+            ${group.tasks.map((task) => createTaskBlock(task, true)).join("")}
+          </div>
+        `;
+        })
+        .join("")}
+    </div>
+  `;
 }
 
-function createTaskBlock(task) {
+function createTaskBlock(task, stacked = false) {
   const start = timeToMinutes(task.start);
-
   const end = timeToMinutes(task.end);
 
   const top = (start / 60) * 72;
-
   const height = Math.max(34, ((end - start) / 60) * 72 - 5);
 
   let className = "task-block";
@@ -2025,36 +2092,16 @@ function createTaskBlock(task) {
   }
 
   return `
+    <div
+      class="${className}"
+      data-task-id="${task.id}"
+      style="${stacked ? "" : `top:${top}px; height:${height}px;`}">
 
-        <div
-            class="${className}"
-            data-task-id="${task.id}"
+      <strong>${escapeHtml(task.name)}</strong>
 
-            style="
-                top:${top}px;
-                height:${height}px;
-            ">
-
-
-            <strong>
-
-                ${escapeHtml(task.name)}
-
-            </strong>
-
-
-            <span>
-
-                ${task.start}
-                —
-                ${task.end}
-
-            </span>
-
-
-        </div>
-
-    `;
+      <span>${task.start} — ${task.end}</span>
+    </div>
+  `;
 }
 
 /* ======================================================
@@ -3870,3 +3917,22 @@ function generateAutomaticTasks() {
 
   return newAutomaticTasks;
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.getElementById("sirenModeToggle");
+
+  if (!toggle) return;
+
+  toggle.checked = sirenModeEnabled;
+
+  toggle.addEventListener("change", () => {
+    sirenModeEnabled = toggle.checked;
+
+    localStorage.setItem("sirenMode", sirenModeEnabled);
+
+    updateSiren();
+
+    if (sirenModeEnabled) {
+      startSiren();
+    }
+  });
+});

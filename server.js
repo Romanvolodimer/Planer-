@@ -29,9 +29,11 @@ const pool = new Pool({
   password: process.env.PG_PASSWORD,
 
   port: Number(process.env.PG_PORT || 5432),
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl: false,
+
+  // ssl: {
+  //   rejectUnauthorized: false,
+  // },
 });
 
 /* =====================================================
